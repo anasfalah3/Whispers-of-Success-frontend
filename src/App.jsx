@@ -8,9 +8,8 @@ function App() {
   return (
     <>
     <RouterProvider router={router}/>
-      {/* <Header />
-      <Home />
-      <Footer /> */}
+      {/* <Home /> */}
+      {/* <Footer /> */}
     </>
   );
 }
