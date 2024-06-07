@@ -1,10 +1,13 @@
 import { createBrowserRouter } from "react-router-dom";
 import Home from "../components/home/Home";
-import Login from "../pages/Login";
-import Register from "../pages/Register";
-import Users from "../pages/Users";
+import Login from "../pages/auth/Login";
+import Register from "../pages/auth/Register";
+// import Users from "../pages/Users";
 import NotFound from "../pages/NotFound";
 import Layout from "../layouts/Layout";
+import AdminDashboard from "@/pages/admin/AdminDashboard";
+import AdminLayout from "@/layouts/admin/AdminLayout";
+import GuestLayout from "@/layouts/GuestLayout";
 
 export const router = createBrowserRouter([
   {
@@ -15,6 +18,15 @@ export const router = createBrowserRouter([
         element: <Home />,
       },
       {
+        path: "*",
+        element: <NotFound />,
+      },
+    ],
+  },
+  {
+    element: <GuestLayout/>,
+    children: [
+      {
         path: "/login",
         element: <Login />,
       },
@@ -22,13 +34,14 @@ export const router = createBrowserRouter([
         path: "/register",
         element: <Register />,
       },
+    ],
+  },
+  {
+    element: <AdminLayout />,
+    children: [
       {
-        path: "/users",
-        element: <Users />,
-      },
-      {
-        path: "*",
-        element: <NotFound />,
+        path: "/admin/dashboard",
+        element: <AdminDashboard />,
       },
     ],
   },

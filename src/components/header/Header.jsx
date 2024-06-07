@@ -20,8 +20,8 @@ export default function Header() {
     </div>
     <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:align-middle">
       <a href="#" className="text-sm mx-4 font-semibold leading-6 py-1 px-2 rounded-md text-gray-900 hover:bg-gray-200 transition">Switch Mode</a>
-      <Link className="text-sm mx-4 font-semibold leading-6 py-1 px-2 rounded-md text-gray-900 hover:bg-gray-200 transition" to={'/Login'}>Log in</Link>
-      <Link className="text-sm mx-4 font-semibold leading-6 py-1 px-2 rounded-md text-gray-900 hover:bg-gray-200 transition" to={'/Register'}>Register</Link>
+      <Link className="text-sm mx-1 font-semibold leading-6 py-1 px-2 rounded-md text-gray-900 hover:bg-gray-200 transition" to={'/Login'}>Log in</Link>
+      <Link className="text-sm mx-1 font-semibold leading-6 py-1 px-2 rounded-md text-white bg-blue-400 hover:bg-blue-700 transition" to={'/Register'}>Register</Link>
     </div>
   </nav>
   {/* Mobile menu, show/hide based on menu open state.  */}
