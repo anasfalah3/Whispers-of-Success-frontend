@@ -42,21 +42,24 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-import {useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import axiosClient from "@/api/axios";
+import { useUserContext } from "@/context/UserContext";
+import AdminApi from "@/services/Api/Admin/AdminApi";
 
 export default function AdminLayout() {
+  const { user, setUser, setIsAuthenticated, logout } =useUserContext();
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
   useEffect(() => {
-    if (!window.localStorage.getItem("ACCESS_TOKEN")) {
-      navigate("/login");
-    }
-    axiosClient.get("/api/user").then((res) => {
-      // console.log(res);
-      setUser(res.data.firstName + " " + res.data.lastName);
-    });
+    AdminApi.getUser()
+      .then(({ data }) => {
+        setUser(data);
+        setIsAuthenticated(true);
+      })
+      .catch(() => {
+        logout();
+        navigate("/login");
+      });
   }, []);
   return (
     <>
@@ -229,7 +232,7 @@ export default function AdminLayout() {
               />
             </div>
             <DropdownMenu>
-                <DropdownMenuLabel className="-mr-5">{user}</DropdownMenuLabel>
+              <DropdownMenuLabel className="-mr-5">{user.firstName} {user.lastName}</DropdownMenuLabel>
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="outline"

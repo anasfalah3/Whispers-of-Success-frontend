@@ -17,9 +17,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Link, useNavigate } from "react-router-dom";
-import { axiosClient } from "@/api/axios";
 import { Loader2 } from "lucide-react";
 import { useEffect } from "react";
+import { useUserContext } from "@/context/UserContext";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -27,12 +27,15 @@ const formSchema = z.object({
 });
 
 export default function Login() {
+  const { login, isAuthenticated, setIsAuthenticated } = useUserContext();
+
   const navigate = useNavigate();
-  useEffect(()=>{
-        if(window.localStorage.getItem("ACCESS_TOKEN")){
-              navigate('/admin/dashboard')
-        }
-  },[])
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/admin/dashboard");
+    }
+  }, []);
+
   // 1. Define your form.
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -45,28 +48,18 @@ export default function Login() {
   // 2. Define a submit handler.
 
   async function onSubmit(values) {
-    try {
-      // Fetch the CSRF token
-      await axiosClient.get("/sanctum/csrf-cookie");
-
-      // Send login request with CSRF token in headers
-      await axiosClient
-        .post("/login", values)
-        .then((res) => {
-          if (res.status === 204) {
-            window.localStorage.setItem("ACCESS_TOKEN", "testToken");
-            navigate("/admin/dashboard");
-          }
-        })
-        .catch(({ response }) => {
-          console.log(response.data.errors);
-          form.setError("email", {
-            message: response.data.errors.email.join(),
-          });
+    login(values.email, values.password)
+      .then((res) => {
+        if (res.status === 204) {
+          setIsAuthenticated(true);
+          navigate("/admin/dashboard");
+        }
+      })
+      .catch(({ response }) => {
+        form.setError("email", {
+          message: response.data.errors.email.join(),
         });
-    } catch (error) {
-      console.error("Error during form submission", error);
-    }
+      });
   }
 
   return (

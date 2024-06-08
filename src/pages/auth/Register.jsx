@@ -20,6 +20,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { axiosClient } from "@/api/axios";
 import { Loader2 } from "lucide-react";
 import { useEffect } from "react";
+import { useUserContext } from "@/context/UserContext";
 
 const formSchema = z.object({
   firstName: z.string().min(2).max(15),
@@ -34,11 +35,12 @@ const formSchema = z.object({
 
 export default function Register() {
   const navigate = useNavigate();
-  useEffect(()=>{
-        if(window.localStorage.getItem("ACCESS_TOKEN")){
-              navigate('/admin/dashboard')
-        }
-  },[])
+  const context = useUserContext();
+  useEffect(() => {
+    if (context.isAuthenticated) {
+      navigate("/admin/dashboard");
+    }
+  }, []);
   // 1. Define your form.
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -63,7 +65,6 @@ export default function Register() {
         .post("/register", values)
         .then((res) => {
           if (res.status === 204) {
-            window.localStorage.setItem("ACCESS_TOKEN", "testToken");
             navigate("/admin/dashboard");
           }
         })
