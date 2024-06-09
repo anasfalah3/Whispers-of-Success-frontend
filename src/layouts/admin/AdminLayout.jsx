@@ -46,9 +46,10 @@ import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useUserContext } from "@/context/UserContext";
 import AdminApi from "@/services/Api/Admin/AdminApi";
+import { ModeToggle } from "@/components/mode-toggle";
 
 export default function AdminLayout() {
-  const { user, setUser, setIsAuthenticated, logout } =useUserContext();
+  const { user, setUser, setIsAuthenticated, logout: contextLogout, } =useUserContext();
   const navigate = useNavigate();
   useEffect(() => {
     AdminApi.getUser()
@@ -57,10 +58,17 @@ export default function AdminLayout() {
         setIsAuthenticated(true);
       })
       .catch(() => {
-        logout();
+        contextLogout();
         navigate("/login");
       });
   }, []);
+
+  const logout = async () => {
+    AdminApi.logout().then(() => {
+      contextLogout();
+      navigate("/login");
+    });
+  };
   return (
     <>
       <div className="flex min-h-screen w-full flex-col bg-muted/40">
@@ -232,14 +240,14 @@ export default function AdminLayout() {
               />
             </div>
             <DropdownMenu>
-              <DropdownMenuLabel className="-mr-5">{user.firstName} {user.lastName}</DropdownMenuLabel>
+              <ModeToggle/>
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="outline"
                   size="icon"
-                  className="overflow-hidden rounded-full">
-                  <Image
-                    src="/placeholder-user.jpg"
+                  className="overflow-hidden rounded-full -ml-2">
+                  <img
+                    src="https://github.com/shadcn.png"
                     width={36}
                     height={36}
                     alt="Avatar"
@@ -248,12 +256,15 @@ export default function AdminLayout() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuLabel className="py-0">{user.firstName} {user.lastName}</DropdownMenuLabel>
+                <DropdownMenuLabel className="text-xs py-0 font-light text-muted-foreground">{user.email}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Settings</DropdownMenuItem>
+                <DropdownMenuItem >Settings</DropdownMenuItem>
                 <DropdownMenuItem>Support</DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Logout</DropdownMenuItem>
+                <DropdownMenuItem className="cursor-pointer" onClick={logout}>
+                  Logout
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </header>

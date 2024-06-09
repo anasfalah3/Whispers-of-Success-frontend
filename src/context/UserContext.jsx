@@ -18,7 +18,7 @@ export default function UserContext({ children }) {
   };
   const logout = () => {
     setUser({});
-    _setIsAuthenticated(false);
+    setIsAuthenticated(false);
   };
   const setIsAuthenticated = (isAuthenticated) => {
       _setIsAuthenticated(isAuthenticated)
