@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
+import { ModeToggle } from "../mode-toggle";
 
 export default function Header() {
   return (
-    <header className="bg-white">
+    <header className="bg-white dark:bg-gray-900">
   <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
     <div className="flex lg:flex-1">
       <a href="#" className="-m-1.5 p-1.5">
@@ -12,16 +13,17 @@ export default function Header() {
     </div>
     
     <div className="hidden lg:flex lg:gap-x-12">
-      <Link className="text-sm font-semibold leading-6 text-gray-900" to={'/'}>Home</Link>
-      <Link className="text-sm font-semibold leading-6 text-gray-900" to={'/Podcasts'}>Podcasts</Link>
-      <Link className="text-sm font-semibold leading-6 text-gray-900" to={'/Marketplace'}>Podcasts</Link>
-      <Link className="text-sm font-semibold leading-6 text-gray-900" to={'/Company'}>Podcasts</Link>
+      <Link className="text-sm font-semibold leading-6 text-gray-900 dark:text-white" to={'/'}>Home</Link>
+      <Link className="text-sm font-semibold leading-6 text-gray-900 dark:text-white" to={'/Podcasts'}>Podcasts</Link>
+      <Link className="text-sm font-semibold leading-6 text-gray-900 dark:text-white" to={'/Marketplace'}>Podcasts</Link>
+      <Link className="text-sm font-semibold leading-6 text-gray-900 dark:text-white" to={'/Company'}>Podcasts</Link>
       
     </div>
-    <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:align-middle">
-      <a href="#" className="text-sm mx-4 font-semibold leading-6 py-1 px-2 rounded-md text-gray-900 hover:bg-gray-200 transition">Switch Mode</a>
-      <Link className="text-sm mx-1 font-semibold leading-6 py-1 px-2 rounded-md text-gray-900 hover:bg-gray-200 transition" to={'/Login'}>Log in</Link>
+    <div className="hidden place-items-center lg:flex lg:flex-1 lg:justify-end lg:align-middle">
+
+      <Link className="text-sm mx-1 font-semibold leading-6 py-1 px-2 rounded-md text-gray-900 hover:bg-gray-200 transition dark:text-white dark:hover:bg-gray-600"  to={'/Login'}>Log in</Link>
       <Link className="text-sm mx-1 font-semibold leading-6 py-1 px-2 rounded-md text-white bg-blue-400 hover:bg-blue-700 transition" to={'/Register'}>Register</Link>
+    <ModeToggle/>
     </div>
   </nav>
   {/* Mobile menu, show/hide based on menu open state.  */}

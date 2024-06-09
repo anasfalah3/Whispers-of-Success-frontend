@@ -48,7 +48,7 @@ export default function Login() {
   // 2. Define a submit handler.
 
   async function onSubmit(values) {
-    login(values.email, values.password)
+    await login(values.email, values.password)
       .then((res) => {
         if (res.status === 204) {
           setIsAuthenticated(true);
@@ -69,11 +69,11 @@ export default function Login() {
         <h4 className="mb-2.5 text-4xl font-bold text-navy-700 dark:text-white">
           Log In
         </h4>
-        <p className="mb-9 ml-1 text-base text-gray-600">
+        <p className="mb-9 ml-1 text-base text-gray-600 dark:text-gray-400">
           Enter your email and password to sign in!
         </p>
 
-        <div className="mb-6 flex h-[50px] w-full items-center justify-center gap-2 rounded-xl bg-slate-100 hover:cursor-pointer dark:bg-navy-800">
+        <div className="mb-6 flex h-[50px] w-full items-center justify-center gap-2 rounded-xl bg-slate-100 hover:cursor-pointer dark:bg-slate-700">
           <div className="rounded-full text-xl">
             <FcGoogle />
           </div>
@@ -142,7 +142,7 @@ export default function Login() {
           </form>
         </Form>
         <div className="mt-4">
-          <span className=" text-sm font-medium text-navy-700 dark:text-gray-600">
+          <span className=" text-sm font-medium text-navy-700 dark:text-gray-400">
             Not registered yet?
           </span>
           <Link

@@ -17,7 +17,7 @@ export default function GuestLayout() {
   return (
     <>
       <Header />
-      <main className=" container mx-20">
+      <main className=" container px-20">
         <Outlet />
       </main>
       <Footer />
