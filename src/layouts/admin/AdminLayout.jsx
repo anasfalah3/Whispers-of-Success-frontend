@@ -42,25 +42,36 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useUserContext } from "@/context/UserContext";
 import AdminApi from "@/services/Api/Admin/AdminApi";
 import { ModeToggle } from "@/components/mode-toggle";
 
 export default function AdminLayout() {
-  const { user, setUser, setIsAuthenticated, logout: contextLogout, } =useUserContext();
+  const {
+    user,
+    setUser,
+    setIsAuthenticated,
+    isAuthenticated,
+    logout: contextLogout,
+  } = useUserContext();
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
-    AdminApi.getUser()
-      .then(({ data }) => {
-        setUser(data);
-        setIsAuthenticated(true);
-      })
-      .catch(() => {
-        contextLogout();
-        navigate("/login");
-      });
+    if (isAuthenticated === true) {
+      setIsLoading(false);
+      AdminApi.getUser()
+        .then(({ data }) => {
+          setUser(data);
+          setIsAuthenticated(true);
+        })
+        .catch(() => {
+          contextLogout();
+        });
+    } else {
+      navigate("/login");
+    }
   }, []);
 
   const logout = async () => {
@@ -69,6 +80,9 @@ export default function AdminLayout() {
       navigate("/login");
     });
   };
+  if (isLoading) {
+    return <></>;
+  }
   return (
     <>
       <div className="flex min-h-screen w-full flex-col bg-muted/40">
@@ -240,7 +254,7 @@ export default function AdminLayout() {
               />
             </div>
             <DropdownMenu>
-              <ModeToggle/>
+              <ModeToggle />
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="outline"
@@ -256,10 +270,14 @@ export default function AdminLayout() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuLabel className="py-0">{user.firstName} {user.lastName}</DropdownMenuLabel>
-                <DropdownMenuLabel className="text-xs py-0 font-light text-muted-foreground">{user.email}</DropdownMenuLabel>
+                <DropdownMenuLabel className="py-0">
+                  {user.firstName} {user.lastName}
+                </DropdownMenuLabel>
+                <DropdownMenuLabel className="text-xs py-0 font-light text-muted-foreground">
+                  {user.email}
+                </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem >Settings</DropdownMenuItem>
+                <DropdownMenuItem>Settings</DropdownMenuItem>
                 <DropdownMenuItem>Support</DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className="cursor-pointer" onClick={logout}>

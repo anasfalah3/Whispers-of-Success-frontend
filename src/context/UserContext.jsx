@@ -11,7 +11,7 @@ export const UserStateContext = createContext({
 });
 export default function UserContext({ children }) {
   const [user, setUser] = useState({});
-  const [isAuthenticated, _setIsAuthenticated] = useState(window.localStorage.getItem('AUTHENTICATED'));
+  const [isAuthenticated, _setIsAuthenticated] = useState('true' ===window.localStorage.getItem('AUTHENTICATED'));
   const login = async (email, password) => {
     await AdminApi.getCsrfToken();
     return AdminApi.login(email, password);

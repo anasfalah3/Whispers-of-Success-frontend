@@ -18,7 +18,6 @@ import {
 } from "@/components/ui/form";
 import { Link, useNavigate } from "react-router-dom";
 import { Loader2 } from "lucide-react";
-import { useEffect } from "react";
 import { useUserContext } from "@/context/UserContext";
 
 const formSchema = z.object({
@@ -27,14 +26,9 @@ const formSchema = z.object({
 });
 
 export default function Login() {
-  const { login, isAuthenticated, setIsAuthenticated } = useUserContext();
+  const { login, setIsAuthenticated } = useUserContext();
 
   const navigate = useNavigate();
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/admin/dashboard");
-    }
-  }, []);
 
   // 1. Define your form.
   const form = useForm({
