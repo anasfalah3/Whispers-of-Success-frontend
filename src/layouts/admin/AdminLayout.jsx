@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import {
   Home,
   Package,
-  Image,
   Package2,
   PanelLeft,
   Search,
@@ -42,47 +41,14 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-import { useEffect, useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
-import { useUserContext } from "@/context/UserContext";
-import AdminApi from "@/services/Api/Admin/AdminApi";
+import { Outlet } from "react-router-dom";
+import  useAuthContext  from "@/context/AuthContext";
 import { ModeToggle } from "@/components/mode-toggle";
 
 export default function AdminLayout() {
-  const {
-    user,
-    setUser,
-    setIsAuthenticated,
-    isAuthenticated,
-    logout: contextLogout,
-  } = useUserContext();
-  const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    if (isAuthenticated === true) {
-      setIsLoading(false);
-      AdminApi.getUser()
-        .then(({ data }) => {
-          setUser(data);
-          setIsAuthenticated(true);
-        })
-        .catch(() => {
-          contextLogout();
-        });
-    } else {
-      navigate("/login");
-    }
-  }, []);
+  const {user,logout} = useAuthContext();
 
-  const logout = async () => {
-    AdminApi.logout().then(() => {
-      contextLogout();
-      navigate("/login");
-    });
-  };
-  if (isLoading) {
-    return <></>;
-  }
+
   return (
     <>
       <div className="flex min-h-screen w-full flex-col bg-muted/40">
@@ -271,10 +237,10 @@ export default function AdminLayout() {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel className="py-0">
-                  {user.firstName} {user.lastName}
+                  {user?.firstName} {user?.lastName}
                 </DropdownMenuLabel>
                 <DropdownMenuLabel className="text-xs py-0 font-light text-muted-foreground">
-                  {user.email}
+                  {user?.email}
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>Settings</DropdownMenuItem>

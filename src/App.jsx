@@ -1,16 +1,13 @@
-import { RouterProvider } from "react-router-dom";
-import { router } from "./router/index.jsx";
-import UserContext from "./context/UserContext.jsx";
 import { ThemeProvider } from "@/components/theme-provider";
+
+import RoutesList from "./routes.jsx";
 
 function App() {
   return (
     <>
-      <UserContext>
-        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-          <RouterProvider router={router} />
-        </ThemeProvider>
-      </UserContext>
+      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+        <RoutesList />
+      </ThemeProvider>
     </>
   );
 }

@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
 import { ModeToggle } from "../mode-toggle";
+import useAuthContext from "@/context/AuthContext";
 
 export default function Header() {
+  const {user,logout} = useAuthContext();
+
   return (
     <header className="bg-white dark:bg-gray-900">
   <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
@@ -20,9 +23,18 @@ export default function Header() {
       
     </div>
     <div className="hidden place-items-center lg:flex lg:flex-1 lg:justify-end lg:align-middle">
-
-      <Link className="text-sm mx-1 font-semibold leading-6 py-1 px-2 rounded-md text-gray-900 hover:bg-gray-200 transition dark:text-white dark:hover:bg-gray-600"  to={'/Login'}>Log in</Link>
-      <Link className="text-sm mx-1 font-semibold leading-6 py-1 px-2 rounded-md text-white bg-blue-400 hover:bg-blue-700 transition" to={'/Register'}>Register</Link>
+      {user ?
+      <>
+      {user.firstName} {user.lastName}
+       <Link className="text-sm mx-1 font-semibold leading-6 py-1 px-2 rounded-md text-gray-900 hover:bg-gray-200 transition dark:text-white dark:hover:bg-gray-600"  to={'/admin/dashboard'}>dashboard</Link>
+       <button onClick={logout} className="text-sm font-semibold leading-6 text-gray-900 dark:text-white">Logout</button>
+      </>
+      : 
+      <>
+        <Link className="text-sm mx-1 font-semibold leading-6 py-1 px-2 rounded-md text-gray-900 hover:bg-gray-200 transition dark:text-white dark:hover:bg-gray-600"  to={'/Login'}>Log in</Link>
+        <Link className="text-sm mx-1 font-semibold leading-6 py-1 px-2 rounded-md text-white bg-blue-400 hover:bg-blue-700 transition" to={'/Register'}>Register</Link>
+      </>
+      }
     <ModeToggle/>
     </div>
   </nav>

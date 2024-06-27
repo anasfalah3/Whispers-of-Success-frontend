@@ -16,9 +16,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Loader2 } from "lucide-react";
-import { useUserContext } from "@/context/UserContext";
+import  useAuthContext  from "@/context/AuthContext";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -26,9 +26,7 @@ const formSchema = z.object({
 });
 
 export default function Login() {
-  const { login, setIsAuthenticated } = useUserContext();
-
-  const navigate = useNavigate();
+  const { login, errors } = useAuthContext();
 
   // 1. Define your form.
   const form = useForm({
@@ -41,19 +39,8 @@ export default function Login() {
 
   // 2. Define a submit handler.
 
-  async function onSubmit(values) {
-    await login(values.email, values.password)
-      .then((res) => {
-        if (res.status === 204) {
-          setIsAuthenticated(true);
-          navigate("/admin/dashboard");
-        }
-      })
-      .catch(({ response }) => {
-        form.setError("email", {
-          message: response.data.errors.email.join(),
-        });
-      });
+  async function onSubmit({email,password}) {
+    await login({email, password})
   }
 
   return (
@@ -92,7 +79,7 @@ export default function Login() {
                   <FormControl>
                     <Input placeholder="exemple@whispers.com" {...field} />
                   </FormControl>
-                  <FormMessage />
+                  {errors.email && <FormMessage>{errors.email[0]}</FormMessage>}
                 </FormItem>
               )}
             />
@@ -107,15 +94,15 @@ export default function Login() {
                   <FormControl>
                     <Input type="password" placeholder="****" {...field} />
                   </FormControl>
-                  <FormMessage />
+                  {errors.password && <FormMessage>{errors.password[0]}</FormMessage>}
                 </FormItem>
               )}
             />
             <div className="mb-4 flex items-center justify-between px-2">
               <div className="flex items-center space-x-2">
-                <Checkbox id="terms" />
+                <Checkbox id="remember" />
                 <label
-                  htmlFor="terms"
+                  htmlFor="remember"
                   className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                   Keep me logged In
                 </label>
@@ -130,7 +117,11 @@ export default function Login() {
               disabled={form.formState.isSubmitting}
               className="linear mt-2 w-full rounded-xl bg-indigo-600 py-[12px] text-base font-bold text-white transition duration-200 hover:bg-brand-600 active:bg-brand-700 dark:bg-brand-400 dark:text-white dark:hover:bg-brand-300 dark:active:bg-brand-200"
               type="submit">
-                {form.formState.isSubmitting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : ""}
+              {form.formState.isSubmitting ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                ""
+              )}
               Log In
             </Button>
           </form>
