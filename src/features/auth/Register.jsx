@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/form";
 import { Link } from "react-router-dom";
 import { Loader2 } from "lucide-react";
-import  useAuthContext  from "@/context/AuthContext";
+import useAuthContext from "@/contexts/AuthContext";
 
 const formSchema = z
   .object({
@@ -47,36 +47,45 @@ export default function Register() {
       password_confirmation: "",
     },
   });
-  
 
   // 2. Define a submit handler.
 
-  async function onSubmit({firstName,lastName,email,password,password_confirmation}) {
-    await register({firstName,lastName,email,password,password_confirmation})
+  async function onSubmit({
+    firstName,
+    lastName,
+    email,
+    password,
+    password_confirmation,
+  }) {
+    await register({
+      firstName,
+      lastName,
+      email,
+      password,
+      password_confirmation,
+    });
   }
   return (
-    <div className="my-4 flex h-full w-full items-center justify-center px-2 md:mx-0 md:px-0 lg:mb-10 lg:items-center lg:justify-start">
+    <div className="my-4 flex h-full w-full items-center justify-center px-2 md:mx-0 md:px-0 lg:mb-10 lg:items-center">
       {/* Sign in section */}
       <div className="mt-[10vh] w-full max-w-full flex-col items-center md:pl-4 lg:pl-0 xl:max-w-[420px]">
-        <h4 className="mb-2.5 text-4xl font-bold text-navy-700 dark:text-white">
-          Register
-        </h4>
+        <h4 className="mb-2.5 text-4xl font-bold text-center">Register</h4>
         <p className="mb-9 ml-1 text-base text-gray-600 dark:text-gray-400">
           Enter your email and password to sign in!
         </p>
 
-        <div className="mb-6 flex h-[50px] w-full items-center justify-center gap-2 rounded-xl bg-slate-100 hover:cursor-pointer dark:bg-slate-700">
+        <div className="mb-6 flex h-[50px] w-full items-center justify-center gap-2 rounded-xl  bg-primary hover:cursor-pointer">
           <div className="rounded-full text-xl">
             <FcGoogle />
           </div>
-          <h5 className="text-sm font-medium text-navy-700 dark:text-white">
+          <h5 className="text-sm font-medium text-white dark:text-black">
             Sign In with Google
           </h5>
         </div>
         <div className="mb-6 flex items-center  gap-3">
-          <div className="h-px w-full bg-gray-200 dark:bg-navy-700" />
-          <p className="text-base text-gray-600 dark:text-white"> or </p>
-          <div className="h-px w-full bg-gray-200 dark:bg-navy-700" />
+          <div className="h-px w-full bg-primary" />
+          <p className="text-base"> or </p>
+          <div className="h-px w-full bg-primary" />
         </div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -91,8 +100,11 @@ export default function Register() {
                     <FormControl>
                       <Input placeholder="john" {...field} />
                     </FormControl>
-                    {errors.firstName && <FormMessage className="max-w-40 text-xs">{errors.firstName[0]}</FormMessage>}
-
+                    {errors.firstName && (
+                      <FormMessage className="max-w-40 text-xs">
+                        {errors.firstName[0]}
+                      </FormMessage>
+                    )}
                   </FormItem>
                 )}
               />
@@ -106,7 +118,11 @@ export default function Register() {
                     <FormControl>
                       <Input placeholder="doe" {...field} />
                     </FormControl>
-                    {errors.lastName && <FormMessage className="max-w-40 text-xs">{errors.lastName[0]}</FormMessage>}
+                    {errors.lastName && (
+                      <FormMessage className="max-w-40 text-xs">
+                        {errors.lastName[0]}
+                      </FormMessage>
+                    )}
                   </FormItem>
                 )}
               />
@@ -122,7 +138,7 @@ export default function Register() {
                     <Input placeholder="exemple@whispers.com" {...field} />
                   </FormControl>
                   <FormMessage />
-                  {errors.email && <FormMessage >{errors.email[0]}</FormMessage>}
+                  {errors.email && <FormMessage>{errors.email[0]}</FormMessage>}
                 </FormItem>
               )}
             />
@@ -137,7 +153,9 @@ export default function Register() {
                   <FormControl>
                     <Input type="password" placeholder="****" {...field} />
                   </FormControl>
-                  {errors.password && <FormMessage >{errors.password[0]}</FormMessage>}
+                  {errors.password && (
+                    <FormMessage>{errors.password[0]}</FormMessage>
+                  )}
                 </FormItem>
               )}
             />
@@ -152,7 +170,9 @@ export default function Register() {
                   <FormControl>
                     <Input type="password" placeholder="****" {...field} />
                   </FormControl>
-                  {errors.password_confirmation && <FormMessage >{errors.password_confirmation[0]}</FormMessage>}
+                  {errors.password_confirmation && (
+                    <FormMessage>{errors.password_confirmation[0]}</FormMessage>
+                  )}
                 </FormItem>
               )}
             />
@@ -176,7 +196,7 @@ export default function Register() {
             </div>
             <Button
               disabled={form.formState.isSubmitting}
-              className="linear mt-2 w-full rounded-xl bg-indigo-600 py-[12px] text-base font-bold text-white transition duration-200 hover:bg-brand-600 active:bg-brand-700 dark:bg-brand-400 dark:text-white dark:hover:bg-brand-300 dark:active:bg-brand-200"
+              className="linear mt-2 w-full rounded-xl bg-primary py-[12px] text-base font-bold transition duration-200"
               type="submit">
               {form.formState.isSubmitting ? (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />

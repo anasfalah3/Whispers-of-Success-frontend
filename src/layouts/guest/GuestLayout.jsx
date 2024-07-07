@@ -1,4 +1,4 @@
-import useAuthContext from "@/context/AuthContext";
+import useAuthContext from "@/contexts/AuthContext";
 import { Navigate, Outlet } from "react-router-dom";
 import Header from "../../components/header/Header";
 import Footer from "../../components/footer/Footer";

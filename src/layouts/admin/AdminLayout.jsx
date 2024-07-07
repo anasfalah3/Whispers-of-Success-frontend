@@ -42,12 +42,11 @@ import {
 } from "@/components/ui/tooltip";
 
 import { Outlet } from "react-router-dom";
-import  useAuthContext  from "@/context/AuthContext";
+import useAuthContext from "@/contexts/AuthContext";
 import { ModeToggle } from "@/components/mode-toggle";
 
 export default function AdminLayout() {
-  const {user,logout} = useAuthContext();
-
+  const { user, logout } = useAuthContext();
 
   return (
     <>

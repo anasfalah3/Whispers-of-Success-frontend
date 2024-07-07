@@ -76,6 +76,7 @@ export const AuthProvider = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
+        csrf,
         user,
         errors,
         getUser,
