@@ -1,77 +1,182 @@
 import { Link } from "react-router-dom";
 import { ModeToggle } from "../mode-toggle";
-import useAuthContext from "@/context/AuthContext";
-
+import useAuthContext from "@/contexts/AuthContext";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 export default function Header() {
-  const {user,logout} = useAuthContext();
+  const { user, logout } = useAuthContext();
 
   return (
-    <header className="bg-white dark:bg-gray-900">
-  <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
-    <div className="flex lg:flex-1">
-      <a href="#" className="-m-1.5 p-1.5">
-        <span className="sr-only">Your Company</span>
-        <img className="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt=""/>
-      </a>
-    </div>
-    
-    <div className="hidden lg:flex lg:gap-x-12">
-      <Link className="text-sm font-semibold leading-6 text-gray-900 dark:text-white" to={'/'}>Home</Link>
-      <Link className="text-sm font-semibold leading-6 text-gray-900 dark:text-white" to={'/Podcasts'}>Podcasts</Link>
-      <Link className="text-sm font-semibold leading-6 text-gray-900 dark:text-white" to={'/Marketplace'}>Podcasts</Link>
-      <Link className="text-sm font-semibold leading-6 text-gray-900 dark:text-white" to={'/Company'}>Podcasts</Link>
-      
-    </div>
-    <div className="hidden place-items-center lg:flex lg:flex-1 lg:justify-end lg:align-middle">
-      {user ?
-      <>
-      {user.firstName} {user.lastName}
-       <Link className="text-sm mx-1 font-semibold leading-6 py-1 px-2 rounded-md text-gray-900 hover:bg-gray-200 transition dark:text-white dark:hover:bg-gray-600"  to={'/admin/dashboard'}>dashboard</Link>
-       <button onClick={logout} className="text-sm font-semibold leading-6 text-gray-900 dark:text-white">Logout</button>
-      </>
-      : 
-      <>
-        <Link className="text-sm mx-1 font-semibold leading-6 py-1 px-2 rounded-md text-gray-900 hover:bg-gray-200 transition dark:text-white dark:hover:bg-gray-600"  to={'/Login'}>Log in</Link>
-        <Link className="text-sm mx-1 font-semibold leading-6 py-1 px-2 rounded-md text-white bg-blue-400 hover:bg-blue-700 transition" to={'/Register'}>Register</Link>
-      </>
-      }
-    <ModeToggle/>
-    </div>
-  </nav>
-  {/* Mobile menu, show/hide based on menu open state.  */}
-  <div className="lg:hidden" role="dialog" aria-modal="true">
-     {/* Background backdrop, show/hide based on slide-over state. */}
-    <div className="fixed inset-0 z-10"></div>
-    <div className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-      <div className="flex items-center justify-between">
-        <a href="#" className="-m-1.5 p-1.5">
-          <span className="sr-only">Your Company</span>
-          <img className="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt=""/>
-        </a>
-        <button type="button" className="-m-2.5 rounded-md p-2.5 text-gray-700">
-          <span className="sr-only">Close menu</span>
-          <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
-      <div className="mt-6 flow-root">
-        <div className="-my-6 divide-y divide-gray-500/10">
-          <div className="space-y-2 py-6">
-            <Link className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50" to={'/'}>Home</Link>
-            <Link className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50" to={'/Podcasts'}>Podcasts</Link>
-            <Link className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50" to={'/Marketplace'}>Marketplace</Link>
-            <Link className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50" to={'/Company'}>Company</Link>
+    <>
+      <header className="sticky top-0 z-50 w-full border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="container flex h-14 max-w-screen-2xl items-center">
+          <div className="mr-4 hidden md:flex">
+            <a className="mr-4 flex items-center space-x-2 lg:mr-6" href="/">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 256 256"
+                className="h-6 w-6">
+                <rect width="256" height="256" fill="none"></rect>
+                <line
+                  x1="208"
+                  y1="128"
+                  x2="128"
+                  y2="208"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="16"></line>
+                <line
+                  x1="192"
+                  y1="40"
+                  x2="40"
+                  y2="192"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="16"></line>
+              </svg>
+              <span className="hidden font-bold lg:inline-block">Whispers</span>
+            </a>
+            <nav className="flex items-center gap-4 text-sm lg:gap-6">
+              <Link
+                className="transition-colors hover:text-foreground/80 text-foreground/60 dark:text-white"
+                to={"/"}>
+                Home
+              </Link>
+              <Link
+                className="transition-colors hover:text-foreground/80 text-foreground/60 dark:text-white"
+                to={"/Podcasts"}>
+                Podcasts
+              </Link>
+              <Link
+                className="transition-colors hover:text-foreground/80 text-foreground/60 dark:text-white"
+                to={"/Marketplace"}>
+                Marketplace
+              </Link>
+              <Link
+                className="transition-colors hover:text-foreground/80 text-foreground/60 dark:text-white"
+                to={"/Company"}>
+                Company
+              </Link>
+            </nav>
           </div>
-          <div className="py-6">
-            <Link className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50" to={'/Login'}>Log in</Link>
-            <Link className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50" to={'/Register'}>Register</Link>
+          <button
+            className="inline-flex items-center justify-center whitespace-nowrap rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:text-accent-foreground h-9 py-2 mr-2 px-0 text-base hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 md:hidden"
+            type="button"
+            aria-haspopup="dialog"
+            aria-expanded="false"
+            aria-controls="radix-:R15u6ja:"
+            data-state="closed">
+            <svg
+              strokeWidth="1.5"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5">
+              <path
+                d="M3 5H11"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"></path>
+              <path
+                d="M3 12H16"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"></path>
+              <path
+                d="M3 19H21"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"></path>
+            </svg>
+            <span className="sr-only">Toggle Menu</span>
+          </button>
+          <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
+            <div className="w-full flex-1 md:w-auto md:flex-none">
+              <button className="inline-flex items-center whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input hover:bg-accent hover:text-accent-foreground px-4 py-2 relative h-8 w-full justify-start rounded-[0.5rem] bg-muted/50 text-sm font-normal text-muted-foreground shadow-none sm:pr-12 md:w-40 lg:w-64">
+                <span className="hidden lg:inline-flex">
+                  Search documentation...
+                </span>
+                <span className="inline-flex lg:hidden">Search...</span>
+                <kbd className="pointer-events-none absolute right-[0.3rem] top-[0.3rem] hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
+                  <span className="text-xs">⌘</span>K
+                </kbd>
+              </button>
+            </div>
+            <nav className="flex items-center">
+              {!user ? (
+                <>
+                  <Link
+                    className="transition-colors hover:text-foreground/80 text-foreground/60 px-2 dark:text-white"
+                    to="/Login">
+                    Log in
+                  </Link>
+                  <Link
+                    className=" text-sm leading-none font-light bg-blue-500 text-white rounded transition-colors hover:bg-blue-700 px-4 py-2  dark:text-white "
+                    to="/Register">
+                    Try For Free
+                  </Link>
+                </>
+              ) : (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="overflow-hidden rounded-full">
+                      <img
+                        src="https://github.com/shadcn.png"
+                        width={36}
+                        height={36}
+                        alt="Avatar"
+                        className="overflow-hidden rounded-full"
+                      />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuLabel className="py-0">
+                      {user?.firstName} {user?.lastName}
+                    </DropdownMenuLabel>
+                    <DropdownMenuLabel className="text-xs py-0 font-light text-muted-foreground">
+                      {user?.email}
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem>
+                      <Link to="/admin/dashboard">Dashboard</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Link to="/Settings">Settings</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Link to="/Support">Support</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                      className="cursor-pointer"
+                      onClick={logout}>
+                      Logout
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              )}
+              <ModeToggle />
+            </nav>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-</header>
-
+      </header>
+    </>
   );
 }
