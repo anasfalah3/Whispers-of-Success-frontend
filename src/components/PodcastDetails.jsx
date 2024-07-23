@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { PodcastsData } from "./podcastsData";
-import { Download, Heart, MessageCircle, Play } from "lucide-react";
-import { Button } from "./ui/button";
+import { Download, Play } from "lucide-react";
 
 export default function PodcastDetails({ id }) {
   return (
@@ -58,12 +57,12 @@ export default function PodcastDetails({ id }) {
                           <div className="flex my-5">
                             <button
                               type="button"
-                              className="flex items-center justify-center transition duration-300 text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                              className="flex items-center justify-center duration-500 text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                               <Play className="mr-2 h-3 w-4" /> Listen
                             </button>
                             <button
                               type="button"
-                              className="flex items-center justify-center transition duration-300 text-black dark:text-white hover:text-white bg-transparent from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                              className="flex items-center justify-center duration-500 text-black dark:text-white hover:text-white bg-transparent from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                                 <Download className="mr-2 h-4 w-4" /> Download
                             </button>
                             
