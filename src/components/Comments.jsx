@@ -1,16 +1,14 @@
-import { useState } from 'react';
-import Comment from './Comment';
-import ReplyInput from './ReplyInput';
-import Modal from './Modal';
-import './App.css';
+import { useState } from "react";
+import ReplyInput from "./ReplyInput";
+import Modal from "./Modal";
+import Comment from "./Comment";
+// import AlertDelete from "./Modal";
+// import "./App.css";
 
 const data = {
   currentUser: {
-    image: {
-      png: "./images/avatars/image-juliusomo.png",
-      webp: "./images/avatars/image-juliusomo.webp",
-    },
-    username: "juliusomo",
+    avatar: "https://flowbite.com/docs/images/people/profile-picture-1.jpg",
+    username: "Anas Falah",
   },
   comments: [
     {
@@ -21,11 +19,8 @@ const data = {
       createdAt: "1 month ago",
       score: 12,
       user: {
-        image: {
-          png: "./images/avatars/image-amyrobson.png",
-          webp: "./images/avatars/image-amyrobson.webp",
-        },
-        username: "amyrobson",
+        avatar: "https://flowbite.com/docs/images/people/profile-picture-1.jpg",
+        username: "Anas Falah",
       },
       replies: [],
     },
@@ -37,10 +32,7 @@ const data = {
       createdAt: "2 weeks ago",
       score: 5,
       user: {
-        image: {
-          png: "./images/avatars/image-maxblagun.png",
-          webp: "./images/avatars/image-maxblagun.webp",
-        },
+        avatar: "https://flowbite.com/docs/images/people/profile-picture-2.jpg",
         username: "maxblagun",
       },
       replies: [
@@ -53,10 +45,7 @@ const data = {
           score: 4,
           replyingTo: "maxblagun",
           user: {
-            image: {
-              png: "./images/avatars/image-ramsesmiron.png",
-              webp: "./images/avatars/image-ramsesmiron.webp",
-            },
+            avatar: "https://flowbite.com/docs/images/people/profile-picture-3.jpg",
             username: "ramsesmiron",
           },
         },
@@ -69,10 +58,7 @@ const data = {
           score: 2,
           replyingTo: "ramsesmiron",
           user: {
-            image: {
-              png: "./images/avatars/image-juliusomo.png",
-              webp: "./images/avatars/image-juliusomo.webp",
-            },
+            avatar: "https://flowbite.com/docs/images/people/profile-picture-4.jpg",
             username: "juliusomo",
           },
         },
@@ -81,7 +67,7 @@ const data = {
   ],
 };
 
-const App = () => {
+export default function Comments() {
   const [comments, setComments] = useState(data.comments);
   const [showModal, setShowModal] = useState(false);
   const [deleteComment, setDeleteComment] = useState(null);
@@ -89,7 +75,7 @@ const App = () => {
   const addComment = (body, parentId, replyTo = undefined) => {
     const newComment = {
       parent: parentId,
-      id: Math.max(...comments.map(c => c.id)) + 1,
+      id: Math.max(...comments.map((c) => c.id)) + 1,
       content: body,
       createdAt: "Now",
       replyingTo: replyTo,
@@ -101,33 +87,39 @@ const App = () => {
     if (parentId === 0) {
       setComments([...comments, newComment]);
     } else {
-      setComments(comments.map(comment => {
-        if (comment.id === parentId) {
-          return { ...comment, replies: [...comment.replies, newComment] };
-        }
-        return comment;
-      }));
+      setComments(
+        comments.map((comment) => {
+          if (comment.id === parentId) {
+            return { ...comment, replies: [...comment.replies, newComment] };
+          }
+          return comment;
+        })
+      );
     }
   };
 
-  const handleDelete = comment => {
+  const handleDelete = (comment) => {
     setShowModal(true);
     setDeleteComment(comment);
   };
 
   const confirmDelete = () => {
     if (deleteComment.parent === 0) {
-      setComments(comments.filter(c => c.id !== deleteComment.id));
+      setComments(comments.filter((c) => c.id !== deleteComment.id));
     } else {
-      setComments(comments.map(comment => {
-        if (comment.id === deleteComment.parent) {
-          return {
-            ...comment,
-            replies: comment.replies.filter(reply => reply.id !== deleteComment.id),
-          };
-        }
-        return comment;
-      }));
+      setComments(
+        comments.map((comment) => {
+          if (comment.id === deleteComment.parent) {
+            return {
+              ...comment,
+              replies: comment.replies.filter(
+                (reply) => reply.id !== deleteComment.id
+              ),
+            };
+          }
+          return comment;
+        })
+      );
     }
     setShowModal(false);
     setDeleteComment(null);
@@ -138,15 +130,22 @@ const App = () => {
     setDeleteComment(null);
   };
 
+  
   return (
     <main>
-      <div className="comment-section">
-        <div className="comments-wrp">
-          {comments.map(comment => (
-            <Comment key={comment.id} comment={comment} currentUser={data.currentUser} handleDelete={handleDelete} addComment={addComment} />
+      <div className="px-4 w-3/4 m-auto mt-4">
+      <ReplyInput currentUser={data.currentUser} addComment={addComment} />
+        <div className="flex flex-col">
+          {comments.map((comment) => (
+            <Comment
+              key={comment.id}
+              comment={comment}
+              currentUser={data.currentUser}
+              handleDelete={handleDelete}
+              addComment={addComment}
+            />
           ))}
         </div>
-        <ReplyInput currentUser={data.currentUser} addComment={addComment} />
       </div>
 
       {showModal && (
@@ -154,6 +153,4 @@ const App = () => {
       )}
     </main>
   );
-};
-
-export default App;
+}

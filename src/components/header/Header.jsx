@@ -15,7 +15,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 w-full border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <header className="sticky top-0 z-50 w-full border-border/40 bg-red-800 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container flex h-14 max-w-screen-2xl items-center">
           <div className="mr-4 hidden md:flex">
             <a className="mr-4 flex items-center space-x-2 lg:mr-6" href="/">
@@ -55,18 +55,18 @@ export default function Header() {
               </Link>
               <Link
                 className="transition-colors hover:text-foreground/80 text-foreground/60 dark:text-white"
-                to={"/Podcasts"}>
-                Podcasts
+                to={"/Browse"}>
+                Browse
               </Link>
               <Link
                 className="transition-colors hover:text-foreground/80 text-foreground/60 dark:text-white"
-                to={"/Marketplace"}>
-                Marketplace
+                to={"/Upload"}>
+                Upload
               </Link>
               <Link
                 className="transition-colors hover:text-foreground/80 text-foreground/60 dark:text-white"
-                to={"/Company"}>
-                Company
+                to={"/Profile"}>
+                Profile
               </Link>
             </nav>
           </div>
